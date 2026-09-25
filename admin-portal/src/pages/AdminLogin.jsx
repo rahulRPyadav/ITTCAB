@@ -62,7 +62,7 @@ const AdminLogin = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:border-[#34A99D]"
-                placeholder="ishika.travels4379@gmail.com"
+                placeholder="Enter Your Email Address "
               />
             </div>
           </div>
@@ -77,7 +77,7 @@ const AdminLogin = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-medium focus:outline-none focus:border-[#34A99D]"
-                placeholder="••••••••"
+                placeholder="Enter Your Password"
               />
             </div>
           </div>

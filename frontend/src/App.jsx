@@ -9,14 +9,15 @@ import Home from './pages/Home';
 import About from './pages/About';
 import TourList from './pages/TourList';
 import TourDetail from './pages/TourDetail';
+import CabServices from './pages/CabServices'; 
 import Contact from './pages/ContactUs';
 import Testimonials from './pages/Testimonials';
+import BookCab from './pages/BookCab';
 
 
 const AppLayout = () => {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
-
 
   return (
     <>
@@ -30,8 +31,9 @@ const AppLayout = () => {
         <Route path="/testimonials" element={<Testimonials />} />
         <Route path="/tours" element={<TourList />} />
         <Route path="/tours/:slug" element={<TourDetail />} />
-        <Route path="/contact" element={<Contact />} />
-      
+       <Route path="/cabs" element={<CabServices />} />
+                <Route path="/contact" element={<Contact />} />
+        <Route path="/book-cab" element={<BookCab />} />
       </Routes>
 
       {!isAdminRoute && <Footer />}

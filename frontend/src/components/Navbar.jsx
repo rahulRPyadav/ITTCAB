@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Phone, Mail, Menu, X, Sparkles, ArrowRight } from "lucide-react";
+import { Phone, Mail, Menu, X, Sparkles, ChevronDown, Compass, Car } from "lucide-react";
 import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Our Tours", path: "/tours" },
     { name: "Testimonials", path: "/testimonials" },
     { name: "About Us", path: "/about" },
     { name: "Contact Us", path: "/contact" },
@@ -46,7 +46,7 @@ const Navbar = () => {
       </div>
 
       {/* 2. MAIN NAVBAR */}
-      <nav className="bg-white/95 backdrop-blur-md border-b border-[#162E93]/20 shadow-xs py-3.5 px-4 sm:px-8 flex justify-between items-center relative z-40">
+      <nav className="bg-white/95 backdrop-blur-md border-b border-[#162E93]/20 shadow-xs py-3 px-4 sm:px-8 flex justify-between items-center relative z-40">
         
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-2 group">
@@ -58,8 +58,65 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav Links */}
-        <div className="hidden lg:flex items-center gap-8 font-extrabold text-xs sm:text-sm text-slate-700">
-          {navLinks.map((link) => (
+        <div className="hidden lg:flex items-center gap-7 font-extrabold text-xs sm:text-sm text-slate-700">
+          <Link
+            to="/"
+            className={`transition-colors py-1 relative ${
+              isActive("/") ? "text-[#34A99D] font-black" : "hover:text-[#34A99D]"
+            }`}
+          >
+            Home
+            {isActive("/") && <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-[#34A99D] rounded-full shadow-xs"></span>}
+          </Link>
+
+          {/* SERVICES DROPDOWN (HOVER ANIMATED) */}
+          <div 
+            className="relative py-2"
+            onMouseEnter={() => setIsServicesOpen(true)}
+            onMouseLeave={() => setIsServicesOpen(false)}
+          >
+            <button className={`flex items-center gap-1 transition-colors cursor-pointer py-1 ${
+              isActive("/tours") || isActive("/cab-services") ? "text-[#34A99D] font-black" : "hover:text-[#34A99D]"
+            }`}>
+              <span>Services</span>
+              <ChevronDown size={15} className={`transition-transform duration-300 ${isServicesOpen ? "rotate-180 text-[#34A99D]" : ""}`} />
+            </button>
+
+            {/* Dropdown Menu Box */}
+            <div className={`absolute top-full left-0 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 transition-all duration-300 transform origin-top ${
+              isServicesOpen ? "opacity-100 scale-100 translate-y-0 pointer-events-auto" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+            }`}>
+              <Link
+                to="/tours"
+                onClick={() => setIsServicesOpen(false)}
+                className="flex items-center gap-3 px-3.5 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#34A99D] transition group"
+              >
+                <div className="p-2 rounded-lg bg-[#34A99D]/10 text-[#34A99D] group-hover:bg-[#34A99D] group-hover:text-white transition">
+                  <Compass size={16} />
+                </div>
+                <div>
+                  <p className="font-extrabold text-xs">Our Tours</p>
+                  <p className="text-[10px] text-slate-400 font-medium">Explore Rajasthan packages</p>
+                </div>
+              </Link>
+
+              <Link
+                to="/cabs" 
+                onClick={() => setIsServicesOpen(false)}
+                className="flex items-center gap-3 px-3.5 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-[#34A99D] transition group mt-1"
+              >
+                <div className="p-2 rounded-lg bg-amber-500/10 text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition">
+                  <Car size={16} />
+                </div>
+                <div>
+                  <p className="font-extrabold text-xs">Cab Services</p>
+                  <p className="text-[10px] text-slate-400 font-medium">Outstation & local rentals</p>
+                </div>
+              </Link>
+            </div>
+          </div>
+
+          {navLinks.slice(1).map((link) => (
             <Link
               key={link.path}
               to={link.path}
@@ -97,9 +154,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* 3. RIGHT SIDEBAR MOBILE DRAWER (70% Width with Smooth Transition) */}
-      
-      {/* Dimmed Overlay */}
+      {/* 3. MOBILE SIDEBAR DRAWER */}
       <div
         onClick={() => setIsMobileMenuOpen(false)}
         className={`fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 lg:hidden transition-opacity duration-500 ease-in-out ${
@@ -107,17 +162,15 @@ const Navbar = () => {
         }`}
       />
 
-      {/* Sliding Drawer from Right */}
       <div
-        className={`fixed top-0 right-0 h-full w-[70%] max-w-sm bg-white z-50 shadow-2xl flex flex-col justify-between p-6 lg:hidden transition-transform duration-500 ease-out transform ${
+        className={`fixed top-0 right-0 h-full w-[75%] max-w-sm bg-white z-50 shadow-2xl flex flex-col justify-between p-6 lg:hidden transition-transform duration-500 ease-out transform ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div>
-          {/* Drawer Header with Close Button */}
           <div className="flex items-center justify-between pb-4 border-b border-slate-100">
             <span className="font-black text-xs uppercase tracking-widest text-[#34A99D]">
-              Ishika Tours & Travles
+              Ishika Tour & Travels
             </span>
             <button
               onClick={() => setIsMobileMenuOpen(false)}
@@ -128,28 +181,57 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Links List */}
-          <div className="flex flex-col space-y-3 pt-6">
-            {navLinks.map((link) => (
+          {/* Mobile Links */}
+          <div className="flex flex-col space-y-2 pt-5">
+            <Link
+              to="/"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className={`px-3.5 py-2.5 rounded-xl font-bold text-sm transition-all ${
+                isActive("/") ? "bg-[#FFF3C8] text-[#458393] font-black" : "text-slate-700 hover:bg-slate-50"
+              }`}
+            >
+              Home
+            </Link>
+
+            {/* Mobile Services Sub-group */}
+            <div className="space-y-1 bg-slate-50/80 p-2.5 rounded-2xl border border-slate-100">
+              <span className="text-[10px] font-black uppercase text-slate-400 px-2 tracking-wider">Services</span>
+              <Link
+                to="/tours"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-white hover:text-[#34A99D] transition"
+              >
+                <Compass size={14} className="text-[#34A99D]" />
+                <span>Our Tours</span>
+              </Link>
+              <Link
+                to="/cabs"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-white hover:text-amber-600 transition"
+              >
+                <Car size={14} className="text-amber-500" />
+                <span>Cab Services</span>
+              </Link>
+            </div>
+
+            {navLinks.slice(1).map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-sm transition-all ${
+                className={`px-3.5 py-2.5 rounded-xl font-bold text-sm transition-all ${
                   isActive(link.path)
                     ? "bg-[#FFF3C8] text-[#458393] font-black"
-                    : "text-slate-700 hover:bg-slate-50 hover:text-[#34A99D]"
+                    : "text-slate-700 hover:bg-slate-50"
                 }`}
               >
-                <span>{link.name}</span>
-                {isActive(link.path) && <ArrowRight size={14} className="text-[#34A99D]" />}
+                {link.name}
               </Link>
             ))}
           </div>
         </div>
 
-        {/* Drawer Footer CTA */}
-        <div className="pt-6 border-t border-slate-100 space-y-3">
+        <div className="pt-5 border-t border-slate-100 space-y-3">
           <Link
             to="/tours"
             onClick={() => setIsMobileMenuOpen(false)}

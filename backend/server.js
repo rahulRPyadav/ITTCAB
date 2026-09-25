@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const connectDB = require('./config/db');
 const User = require('./models/User');
 const reviewRoutes = require('./routes/reviewRoutes');
+const cabBookingRoutes = require('./routes/cabBookingRoutes');
 
 dotenv.config();
 connectDB();
@@ -49,6 +50,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/tours', require('./routes/tourRoutes'));
 app.use('/api/bookings', require('./routes/bookingRoutes'));
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/cab-bookings', cabBookingRoutes);
 
 app.get('/', (req, res) => {
   res.send('🚀 Ishika Tour & Travels API is Live & Running...');
